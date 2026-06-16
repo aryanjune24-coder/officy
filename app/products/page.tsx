@@ -37,40 +37,41 @@ export default function ProductsPage() {
       });
   }, []);
 
-  const filteredProducts = useMemo(() => {
-    let result = [...products];
+ const filteredProducts = useMemo(() => {
+  let result = [...products];
 
-    if (selectedCategory !== "All") {
-      result = result.filter(
-        (product) => product.category === selectedCategory
-      );
-    }
+  if (selectedCategory !== "All") {
+    result = result.filter(
+      (product) => product.category === selectedCategory
+    );
+  }
 
-    if (searchQuery) {
-      result = result.filter((product) =>
-        product.name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
+  if (searchQuery.trim()) {
+    result = result.filter((product) =>
+      product.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }
 
-    switch (sortOption) {
-      case "price-low":
-        result.sort((a, b) => a.price - b.price);
-        break;
+  switch (sortOption) {
+    case "price-low":
+      result.sort((a, b) => a.price - b.price);
+      break;
 
-      case "price-high":
-        result.sort((a, b) => b.price - a.price);
-        break;
+    case "price-high":
+      result.sort((a, b) => b.price - a.price);
+      break;
 
-      case "rating":
-        result.sort((a, b) => b.rating - a.rating);
-        break;
+    case "rating":
+      result.sort((a, b) => b.rating - a.rating);
+      break;
 
-      default:
-        result.sort((a, b) => Number(b.featured) - Number(a.featured));
-    }
+    default:
+      result.sort((a, b) => Number(b.featured) - Number(a.featured));
+  }
 
-    return result;
-  }, [searchQuery, selectedCategory, sortOption]);
+  return result;
+}, [products, searchQuery, selectedCategory, sortOption]);
+    
 
   return (
     <main className="products-page">
